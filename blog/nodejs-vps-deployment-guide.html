@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How to Deploy a Node.js App to Production on a VPS with Nginx, PM2, and SSL (Step-by-Step) | Akshay Bangar</title>
+<meta name="description" content="A complete, production-grade guide to deploying Node.js applications on a VPS. Learn how to set up Ubuntu, Node.js, PM2 cluster mode, Nginx reverse proxy, Let's Encrypt SSL, firewall rules, and zero-downtime deployments.">
+<meta name="keywords" content="deploy Node.js VPS, Node.js production deployment, Nginx reverse proxy Node.js, PM2 cluster mode, Let's Encrypt SSL Node.js, Node.js Ubuntu server setup, deploy Express.js production, Node.js deployment guide 2026, PM2 ecosystem config, Nginx Node.js configuration">
+<meta name="author" content="Akshay Bangar">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://akshaybangarab.github.io/blog/nodejs-vps-deployment-guide.html">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://akshaybangarab.github.io/blog/nodejs-vps-deployment-guide.html">
+<meta property="og:title" content="How to Deploy a Node.js App to Production on a VPS with Nginx, PM2, and SSL (Step-by-Step)">
+<meta property="og:description" content="A complete, production-grade guide to deploying Node.js applications on a VPS. Learn how to set up Ubuntu, Node.js, PM2 cluster mode, Nginx reverse proxy, Let's Encrypt SSL, and zero-downtime deployments.">
+<meta property="article:published_time" content="2026-07-17T08:00:00+00:00">
+<meta property="article:author" content="Akshay Bangar">
+<meta property="og:image" content="https://akshaybangarab.github.io/images/nodejs-vps-deploy-cover.png">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://akshaybangarab.github.io/blog/nodejs-vps-deployment-guide.html">
+<meta name="twitter:title" content="How to Deploy a Node.js App to Production on a VPS with Nginx, PM2, and SSL (Step-by-Step)">
+<meta name="twitter:description" content="A complete, production-grade guide to deploying Node.js applications on a VPS. Learn how to set up Ubuntu, Node.js, PM2 cluster mode, Nginx reverse proxy, Let's Encrypt SSL, and zero-downtime deployments.">
+<meta name="twitter:image" content="https://akshaybangarab.github.io/images/nodejs-vps-deploy-cover.png">
+
+<!-- JSON-LD Schema Markup — Article -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Deploy a Node.js App to Production on a VPS with Nginx, PM2, and SSL (Step-by-Step)",
+  "description": "A complete, production-grade guide to deploying Node.js applications on a VPS. Learn how to set up Ubuntu, Node.js, PM2 cluster mode, Nginx reverse proxy, Let's Encrypt SSL, firewall rules, and zero-downtime deployments.",
+  "image": "https://akshaybangarab.github.io/images/nodejs-vps-deploy-cover.png",
+  "author": {
+    "@type": "Person",
+    "@id": "https://akshaybangarab.github.io/#person",
+    "name": "Akshay Bangar",
+    "url": "https://akshaybangarab.github.io/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Akshay Bangar",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://akshaybangarab.github.io/images/logo-akshay-bangar.png",
+        "width": 512,
+        "height": 512
+    }
+  },
+  "datePublished": "2026-07-17T08:00:00+00:00",
+  "dateModified": "2026-07-17T08:00:00+00:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://akshaybangarab.github.io/blog/nodejs-vps-deployment-guide.html"
+  },
+  "wordCount": 4500
+}
+</script>
+
+<!-- JSON-LD Schema Markup — FAQ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I deploy a Node.js app to a VPS?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "To deploy a Node.js app to a VPS: (1) Provision an Ubuntu VPS and create a non-root sudo user. (2) Install Node.js via the NodeSource repository. (3) Clone your application code and install production dependencies with npm ci --omit=dev. (4) Use PM2 as a process manager to keep your app running, auto-restart on crashes, and utilize all CPU cores via cluster mode. (5) Configure Nginx as a reverse proxy to forward HTTP/HTTPS traffic to your Node.js process. (6) Secure the connection with a free Let's Encrypt SSL certificate using Certbot."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is PM2 and why should I use it for Node.js in production?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PM2 is a production-grade process manager for Node.js. It keeps your application running 24/7 by automatically restarting it if it crashes. It supports cluster mode to run multiple instances across all CPU cores for better performance, provides built-in log management, and can be configured to start your app automatically on server reboot. Without PM2, a single unhandled exception would kill your Node.js process and take your site offline."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why use Nginx in front of Node.js instead of exposing Node.js directly?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Running Node.js directly on port 80/443 is a security and performance risk. Nginx acts as a reverse proxy and provides: SSL/TLS termination (handling HTTPS encryption), static file serving (much faster than Node.js for images, CSS, JS), request buffering to protect Node.js from slow clients, rate limiting and DDoS mitigation, Gzip/Brotli compression, and the ability to serve multiple applications on one server. Nginx is battle-tested to handle tens of thousands of concurrent connections."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I get a free SSL certificate for my Node.js app?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use Let's Encrypt with Certbot. After installing Certbot and its Nginx plugin (sudo apt install certbot python3-certbot-nginx), run 'sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com'. Certbot will automatically obtain the certificate, configure Nginx to use HTTPS, and set up auto-renewal via a systemd timer. The certificate renews automatically every 90 days."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I update my Node.js app on the VPS without downtime?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use PM2's reload command for zero-downtime deployments. After pulling the latest code with git pull and installing dependencies, run 'pm2 reload ecosystem.config.js'. Unlike 'restart', the 'reload' command gracefully starts new worker processes before killing old ones, so there is no gap where no process is listening. This ensures users never see a dropped connection during deployment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What firewall rules should I set for a Node.js VPS?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use UFW (Uncomplicated Firewall) to allow only essential ports: SSH (port 22 or your custom SSH port), HTTP (port 80 for Certbot and redirects), and HTTPS (port 443 for your application). Block everything else, including your Node.js application port (e.g., 3000) — it should only be accessible internally via the Nginx reverse proxy, never exposed directly to the internet."
+      }
+    }
+  ]
+}
+</script>
+
+<meta name="theme-color" content="#0a0a0f">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/blog.css">
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, theme: 'dark', themeVariables: { primaryColor: '#111118', primaryTextColor: '#f1f5f9', primaryBorderColor: '#6366f1', lineColor: '#818cf8', nodeBorder: '#6366f1' } });
+</script>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div id="reading-progress"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+<div class="container">
+<a href="../index.html" class="nav-logo">Akshay Bangar</a>
+<div class="nav-links" id="nav-links">
+<button class="nav-close" id="nav-close" aria-label="Close menu">&times;</button>
+<a href="../index.html#home">Home</a>
+<a href="../index.html#about">About</a>
+<a href="index.html" class="active">Blog</a>
+<a href="../index.html#projects">Projects</a>
+<a href="../index.html#experience">Experience</a>
+<a href="../index.html#contact">Contact</a>
+</div>
+<div class="nav-overlay" id="nav-overlay"></div>
+<div class="nav-right">
+<button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+<button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+<span></span><span></span><span></span>
+</button>
+</div>
+</div>
+</nav>
+
+<header class="article-hero">
+<div class="article-hero-bg">
+<img src="../images/nodejs-vps-deploy-cover.png" alt="Node.js VPS Production Deployment Architecture" style="width:100%;height:100%;object-fit:cover;opacity:0.6;">
+</div>
+<div class="container">
+<div class="article-breadcrumb">
+<a href="../index.html">Home</a> <i class="fa-solid fa-chevron-right"></i>
+<a href="index.html">Blog</a> <i class="fa-solid fa-chevron-right"></i>
+<span>Node.js VPS Deployment</span>
+</div>
+
+<div class="article-hero-inner reveal">
+<div class="post-tags article-hero-tags">
+<span class="post-tag">DevOps</span>
+<span class="post-tag">Node.js</span>
+<span class="post-tag">Production</span>
+</div>
+<h1 class="article-hero-title">How to Deploy a Node.js App to Production on a VPS with Nginx, PM2, and SSL</h1>
+<p class="article-hero-subtitle">My step-by-step production setup — from server hardening and PM2 cluster mode to Nginx reverse proxy, Let's Encrypt SSL, and zero-downtime deployments.</p>
+
+<div class="article-hero-meta">
+<div class="article-meta-item"><i class="fa-regular fa-calendar"></i> July 17, 2026</div>
+<div class="article-meta-item"><i class="fa-regular fa-clock"></i> 18 min read</div>
+<div class="article-meta-item"><i class="fa-regular fa-user"></i> Akshay Bangar</div>
+</div>
+</div>
+
+</div> <!-- /container -->
+</header>
+
+<main class="container">
+<div class="article-layout">
+<div class="article-body-col">
+<!-- AUTHOR CARD -->
+<div class="author-card reveal">
+<div class="author-avatar-wrap">
+<img src="../images/akshay-bangar-software-engineer.jpg" alt="Akshay Bangar" class="author-avatar">
+<div class="author-verified"><i class="fa-solid fa-check"></i></div>
+</div>
+<div class="author-info">
+<div class="author-label">Written By</div>
+<div class="author-name">Akshay Bangar</div>
+<div class="author-title">Backend Engineer &amp; DevOps</div>
+<p class="author-bio">I deploy and manage production Node.js applications on VPS infrastructure. This guide shares the exact server configuration, process management, and deployment workflow I use for real production systems.</p>
+<div class="author-socials">
+<a href="https://x.com/akshaybangarab" class="author-social-link" target="_blank" rel="noopener"><i class="fa-brands fa-twitter"></i></a>
+<a href="https://linkedin.com/in/akshaybangarab" class="author-social-link" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin"></i></a>
+<a href="https://github.com/AkshayBangarAB" class="author-social-link" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i></a>
+</div>
+</div>
+</div>
+
+<!-- ARTICLE CONTENT -->
+<div class="article-content">
+<p>Every developer eventually faces the same question: <em>"My app works on localhost — how do I actually put it on the internet?"</em> Most guides online either give you a 5-minute Heroku walkthrough (not production-grade) or a 100-page DevOps textbook (overkill for a single VPS). Neither actually shows you what a real, battle-tested production deployment looks like.</p>
+
+<p>I've deployed and managed multiple Node.js applications on VPS infrastructure in production — handling real traffic, real crashes, and real security threats. This guide shares the <strong>exact setup I use</strong>: from the initial server hardening to the PM2 ecosystem config, the Nginx configuration, SSL certificates, and the deployment script I run every time I push an update.</p>
+
+<div class="callout callout-info">
+<i class="fa-solid fa-lightbulb callout-icon"></i>
+<div class="callout-body">
+<strong>Who is this guide for?</strong> Developers who have a working Node.js/Express application locally and want to deploy it on a VPS (DigitalOcean, Hetzner, Linode, AWS Lightsail, etc.) for production use. I assume you have basic terminal/SSH knowledge. No Docker or Kubernetes required — this is a clean, proven single-server deployment.
+</div>
+</div>
+
+<h2 id="architecture">1. The Production Architecture</h2>
+
+<p>Before touching any commands, let me show you the architecture we're building. Understanding <em>why</em> each component exists prevents blind copy-pasting and helps you debug issues later.</p>
+
+<div style="margin: 40px 0; background: var(--bg-secondary); padding: 20px; border-radius: var(--radius); border: 1px solid var(--border); overflow-x: auto;">
+<div class="mermaid">
+flowchart LR
+    User([User Browser]) -->|HTTPS :443| CF["Cloudflare CDN<br>(optional)"]
+    CF -->|HTTPS| Nginx["Nginx<br>Reverse Proxy<br>:80 / :443"]
+    
+    subgraph VPS ["Ubuntu VPS"]
+        Nginx -->|proxy_pass<br>http://127.0.0.1:3000| PM2["PM2 Process Manager"]
+        PM2 --> W1["Worker 1<br>Node.js :3000"]
+        PM2 --> W2["Worker 2<br>Node.js :3000"]
+        PM2 --> W3["Worker 3<br>Node.js :3000"]
+        PM2 --> W4["Worker N<br>Node.js :3000"]
+    end
+
+    Nginx -.->|Serves directly| Static["Static Files<br>CSS / JS / Images"]
+    W1 --> DB[(MongoDB / PostgreSQL)]
+</div>
+</div>
+
+<p>Here's why each layer matters:</p>
+
+<div style="overflow-x:auto;">
+<table class="comparison-table">
+<thead>
+<tr><th>Component</th><th>Role</th><th>Why You Need It</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Nginx</strong></td><td>Reverse proxy &amp; SSL termination</td><td>Handles HTTPS, serves static files 10x faster than Node.js, buffers slow clients, provides rate limiting</td></tr>
+<tr><td><strong>PM2</strong></td><td>Process manager</td><td>Auto-restarts crashed processes, runs cluster mode across all CPU cores, manages logs, starts on boot</td></tr>
+<tr><td><strong>Let's Encrypt</strong></td><td>Free SSL certificates</td><td>HTTPS is mandatory — browsers mark HTTP as "Not Secure", Google penalizes HTTP in rankings</td></tr>
+<tr><td><strong>UFW</strong></td><td>Firewall</td><td>Blocks all ports except SSH/HTTP/HTTPS — your Node.js port (3000) is never exposed to the internet</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="server-setup">2. Initial Server Setup &amp; Hardening</h2>
+
+<p>Start with a fresh <strong>Ubuntu 22.04 LTS</strong> or <strong>24.04 LTS</strong> VPS. I recommend at least <strong>2 GB RAM</strong> and <strong>1 vCPU</strong> for a basic app, or <strong>4 GB RAM / 2 vCPU</strong> if you're running a database on the same server.</p>
+
+<h3 id="ssh-connect">Step 1: Connect via SSH</h3>
+
+<pre><code># Connect to your VPS as root (first time only)
+ssh root@YOUR_SERVER_IP</code></pre>
+
+<h3 id="create-user">Step 2: Create a Deploy User (Never Run Apps as Root)</h3>
+
+<div class="callout callout-warning">
+<i class="fa-solid fa-triangle-exclamation callout-icon"></i>
+<div class="callout-body">
+<strong>Critical Security Rule:</strong> Never run your Node.js application as root. A vulnerability in your app would give an attacker full server access. Always create a dedicated user with limited privileges.
+</div>
+</div>
+
+<pre><code># Create a new user called 'deploy'
+adduser deploy
+
+# Give it sudo privileges
+usermod -aG sudo deploy
+
+# Copy your SSH key so you can login as this user
+rsync --archive --chown=deploy:deploy ~/.ssh /home/deploy
+
+# Test the new user — open a NEW terminal and connect
+ssh deploy@YOUR_SERVER_IP
+
+# If it works, disable root SSH login for security
+sudo sed -i 's/^PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+sudo systemctl restart sshd</code></pre>
+
+<h3 id="firewall">Step 3: Configure the Firewall</h3>
+
+<pre><code># Allow only the ports we need
+sudo ufw allow OpenSSH        # Port 22 — SSH access
+sudo ufw allow 'Nginx Full'   # Ports 80 & 443 — HTTP & HTTPS
+
+# Enable the firewall
+sudo ufw enable
+
+# Verify — should show SSH and Nginx only
+sudo ufw status
+
+# Expected output:
+# To                         Action      From
+# --                         ------      ----
+# OpenSSH                    ALLOW       Anywhere
+# Nginx Full                 ALLOW       Anywhere</code></pre>
+
+<div class="callout callout-info">
+<i class="fa-solid fa-shield-halved callout-icon"></i>
+<div class="callout-body">
+<strong>Notice:</strong> We are NOT opening port 3000 (or whatever port your Node.js app runs on). Your app is only accessible through Nginx's reverse proxy on ports 80/443. This means nobody can bypass Nginx and hit your Node.js process directly — a critical security measure.
+</div>
+</div>
+
+<h3 id="system-updates">Step 4: System Updates &amp; Essential Packages</h3>
+
+<pre><code># Update the system
+sudo apt update && sudo apt upgrade -y
+
+# Install essential build tools (needed for native npm modules)
+sudo apt install -y build-essential git curl wget</code></pre>
+
+<h2 id="install-nodejs">3. Installing Node.js (The Right Way)</h2>
+
+<p>Do <strong>NOT</strong> install Node.js via <code>sudo apt install nodejs</code> — the default Ubuntu repository has severely outdated versions. Use the <strong>NodeSource repository</strong> to get the latest LTS version:</p>
+
+<pre><code># Install Node.js 22.x LTS (current LTS as of 2026)
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# Verify installation
+node --version    # Should show v22.x.x
+npm --version     # Should show 10.x.x
+
+# Set npm to not use sudo for global installs
+mkdir -p ~/.npm-global
+npm config set prefix '~/.npm-global'
+echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc</code></pre>
+
+<h2 id="deploy-app">4. Deploying Your Application Code</h2>
+
+<h3 id="clone-app">Clone &amp; Install</h3>
+
+<pre><code># Create a directory for your apps
+sudo mkdir -p /var/www
+sudo chown deploy:deploy /var/www
+
+# Clone your repository
+cd /var/www
+git clone https://github.com/YOUR_USERNAME/YOUR_APP.git myapp
+cd myapp
+
+# Install ONLY production dependencies (no devDependencies)
+npm ci --omit=dev</code></pre>
+
+<div class="callout callout-warning">
+<i class="fa-solid fa-triangle-exclamation callout-icon"></i>
+<div class="callout-body">
+<strong>Why <code>npm ci</code> instead of <code>npm install</code>?</strong> The <code>ci</code> command does a clean install from your <code>package-lock.json</code> — it's faster, deterministic, and guaranteed to match your development environment exactly. The <code>--omit=dev</code> flag skips installing development tools (testing libraries, linters) that have no business on a production server.
+</div>
+</div>
+
+<h3 id="env-vars">Set Up Environment Variables</h3>
+
+<pre><code># Create the production .env file
+nano /var/www/myapp/.env</code></pre>
+
+<pre><code># Example .env for production
+NODE_ENV=production
+PORT=3000
+DATABASE_URL=mongodb://localhost:27017/myapp
+JWT_SECRET=your-long-random-secret-here
+CORS_ORIGIN=https://yourdomain.com</code></pre>
+
+<div class="callout callout-warning">
+<i class="fa-solid fa-triangle-exclamation callout-icon"></i>
+<div class="callout-body">
+<strong>Security:</strong> Never commit <code>.env</code> files to Git. Add <code>.env</code> to your <code>.gitignore</code>. For production secrets, consider using environment variables set directly in PM2's ecosystem config or a secrets manager.
+</div>
+</div>
+
+<h3 id="test-run">Quick Test</h3>
+
+<pre><code># Test that your app starts without errors
+node app.js   # or node server.js, node index.js — whatever your entry point is
+
+# You should see: "Server running on port 3000" (or similar)
+# Press Ctrl+C to stop it — we'll use PM2 from now on</code></pre>
+
+<h2 id="pm2-setup">5. PM2 — Production Process Management</h2>
+
+<p>Running <code>node app.js</code> directly in production is a critical mistake. If your app crashes (and it will eventually — an unhandled promise rejection, a database timeout, an out-of-memory error), the process dies and your site goes offline with no one to restart it. PM2 solves every one of these problems.</p>
+
+<h3 id="install-pm2">Install PM2</h3>
+
+<pre><code># Install PM2 globally
+npm install -g pm2</code></pre>
+
+<h3 id="ecosystem-config">Create the Ecosystem Config File</h3>
+
+<p>Instead of passing flags to the PM2 command every time, create a configuration file. This is the <strong>exact ecosystem.config.js</strong> pattern I use in production:</p>
+
+<pre><code>// /var/www/myapp/ecosystem.config.js
+
+module.exports = {
+  apps: [
+    {
+      name: 'myapp',                    // Name shown in PM2 process list
+      script: './app.js',               // Your app's entry point
+      cwd: '/var/www/myapp',            // Working directory
+
+      // === CLUSTER MODE (use all CPU cores) ===
+      instances: 'max',                 // Spawns one worker per CPU core
+      exec_mode: 'cluster',            // Required for multi-instance
+
+      // === ENVIRONMENT ===
+      env: {
+        NODE_ENV: 'production',
+        PORT: 3000
+      },
+
+      // === RELIABILITY ===
+      max_memory_restart: '512M',      // Auto-restart if memory exceeds 512MB
+      restart_delay: 5000,             // Wait 5s before restarting a crashed process
+      max_restarts: 10,                // Stop restarting after 10 consecutive crashes
+      min_uptime: '10s',               // Process must run 10s to be considered "started"
+
+      // === LOGGING ===
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
+      error_file: '/var/log/pm2/myapp-error.log',
+      out_file: '/var/log/pm2/myapp-out.log',
+      merge_logs: true,                // Merge cluster worker logs into one file
+
+      // === GRACEFUL SHUTDOWN ===
+      kill_timeout: 5000,             // Give the app 5s to finish in-flight requests
+      listen_timeout: 8000,           // Max time to wait for app to signal "ready"
+      wait_ready: false               // Set true if you use process.send('ready')
+    }
+  ]
+};</code></pre>
+
+<div class="callout callout-info">
+<i class="fa-solid fa-lightbulb callout-icon"></i>
+<div class="callout-body">
+<strong>Why Cluster Mode?</strong> Node.js is single-threaded by default. On a 4-core VPS, a single Node.js process uses only 25% of your CPU. PM2's cluster mode spawns one worker per core, so all 4 cores handle requests — effectively quadrupling your throughput at zero extra cost.
+</div>
+</div>
+
+<h3 id="start-app">Start &amp; Persist</h3>
+
+<pre><code># Create the log directory
+sudo mkdir -p /var/log/pm2
+sudo chown deploy:deploy /var/log/pm2
+
+# Start the application
+cd /var/www/myapp
+pm2 start ecosystem.config.js
+
+# Verify it's running
+pm2 status
+
+# Expected output:
+# ┌─────┬──────────┬─────────────┬──────┬───────────┬──────────┬──────────┐
+# │ id  │ name     │ mode        │ ↺    │ status    │ cpu      │ memory   │
+# ├─────┼──────────┼─────────────┼──────┼───────────┼──────────┼──────────┤
+# │ 0   │ myapp    │ cluster     │ 0    │ online    │ 0%       │ 58.0mb   │
+# │ 1   │ myapp    │ cluster     │ 0    │ online    │ 0%       │ 56.2mb   │
+# │ 2   │ myapp    │ cluster     │ 0    │ online    │ 0%       │ 55.8mb   │
+# │ 3   │ myapp    │ cluster     │ 0    │ online    │ 0%       │ 57.1mb   │
+# └─────┴──────────┴─────────────┴──────┴───────────┴──────────┴──────────┘
+
+# CRITICAL: Save the process list so PM2 auto-starts on server reboot
+pm2 save
+
+# Generate the startup script (run the command it outputs)
+pm2 startup
+
+# PM2 will print a command like:
+# sudo env PATH=$PATH:/usr/bin pm2 startup systemd -u deploy --hp /home/deploy
+# COPY AND RUN that exact command</code></pre>
+
+<h3 id="pm2-commands">Essential PM2 Commands</h3>
+
+<div style="overflow-x:auto;">
+<table class="comparison-table">
+<thead>
+<tr><th>Command</th><th>Purpose</th></tr>
+</thead>
+<tbody>
+<tr><td><code>pm2 status</code></td><td>Show all running processes</td></tr>
+<tr><td><code>pm2 logs myapp</code></td><td>Stream real-time logs (Ctrl+C to exit)</td></tr>
+<tr><td><code>pm2 logs myapp --lines 200</code></td><td>Show last 200 log lines</td></tr>
+<tr><td><code>pm2 monit</code></td><td>Interactive dashboard (CPU, memory, logs)</td></tr>
+<tr><td><code>pm2 reload myapp</code></td><td>Zero-downtime restart (graceful reload)</td></tr>
+<tr><td><code>pm2 restart myapp</code></td><td>Hard restart (causes brief downtime)</td></tr>
+<tr><td><code>pm2 stop myapp</code></td><td>Stop the application</td></tr>
+<tr><td><code>pm2 delete myapp</code></td><td>Remove from PM2's process list</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="nginx-setup">6. Nginx — Reverse Proxy Configuration</h2>
+
+<h3 id="install-nginx">Install Nginx</h3>
+
+<pre><code>sudo apt install -y nginx
+
+# Verify it's running
+sudo systemctl status nginx
+# You should see "active (running)"</code></pre>
+
+<h3 id="nginx-config">Create the Site Configuration</h3>
+
+<pre><code># Remove the default Nginx page
+sudo rm /etc/nginx/sites-enabled/default
+
+# Create your app's config file
+sudo nano /etc/nginx/sites-available/myapp</code></pre>
+
+<p>Paste this <strong>production-grade Nginx configuration</strong>:</p>
+
+<pre><code># /etc/nginx/sites-available/myapp
+
+# Rate limiting zone — prevents abuse (10 requests/second per IP)
+limit_req_zone $binary_remote_addr zone=app_limit:10m rate=10r/s;
+
+# Upstream block — points to your Node.js cluster
+upstream nodejs_backend {
+    server 127.0.0.1:3000;
+
+    # Keep connections alive between Nginx and Node.js
+    keepalive 64;
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name yourdomain.com www.yourdomain.com;
+
+    # === SECURITY HEADERS ===
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+
+    # === LOGGING ===
+    access_log /var/log/nginx/myapp-access.log;
+    error_log  /var/log/nginx/myapp-error.log;
+
+    # === STATIC FILES (served directly by Nginx — much faster) ===
+    location /public/ {
+        alias /var/www/myapp/public/;
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+        access_log off;
+    }
+
+    # === MAIN APPLICATION ===
+    location / {
+        # Rate limiting — burst allows 20 queued requests
+        limit_req zone=app_limit burst=20 nodelay;
+
+        proxy_pass http://nodejs_backend;
+
+        # Required proxy headers
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # Timeouts
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+
+        # Buffering — protects Node.js from slow clients
+        proxy_buffering on;
+        proxy_buffer_size 128k;
+        proxy_buffers 4 256k;
+        proxy_busy_buffers_size 256k;
+
+        # Don't cache dynamic responses
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    # === GZIP COMPRESSION ===
+    gzip on;
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 5;
+    gzip_min_length 256;
+    gzip_types
+        text/plain
+        text/css
+        text/javascript
+        application/javascript
+        application/json
+        application/xml
+        image/svg+xml;
+
+    # === FILE UPLOAD LIMIT ===
+    client_max_body_size 10M;
+}</code></pre>
+
+<h3 id="enable-site">Enable &amp; Test</h3>
+
+<pre><code># Enable the site by creating a symlink
+sudo ln -s /etc/nginx/sites-available/myapp /etc/nginx/sites-enabled/
+
+# TEST the configuration for syntax errors (ALWAYS do this before reloading)
+sudo nginx -t
+
+# Expected output:
+# nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+# nginx: configuration file /etc/nginx/nginx.conf test is successful
+
+# Only if the test passes — reload Nginx
+sudo systemctl reload nginx</code></pre>
+
+<div class="callout callout-warning">
+<i class="fa-solid fa-triangle-exclamation callout-icon"></i>
+<div class="callout-body">
+<strong>Always run <code>nginx -t</code> before reloading.</strong> A single syntax error in the config file will cause <code>nginx reload</code> to fail silently and your previous config stays active. In the worst case, a <code>nginx restart</code> with a broken config will take your entire site offline. The <code>-t</code> flag catches this before it happens.
+</div>
+</div>
+
+<p>At this point, if your DNS is pointed to your VPS IP, visiting <code>http://yourdomain.com</code> should show your Node.js application. Now let's secure it with HTTPS.</p>
+
+<h2 id="ssl-setup">7. SSL/HTTPS with Let's Encrypt</h2>
+
+<pre><code># Install Certbot and the Nginx plugin
+sudo apt install -y certbot python3-certbot-nginx
+
+# Obtain and install the SSL certificate
+# Certbot will automatically modify your Nginx config to use HTTPS
+sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
+
+# Follow the prompts:
+# - Enter your email
+# - Agree to terms
+# - Choose "Redirect HTTP to HTTPS" when asked (recommended)</code></pre>
+
+<p>Certbot automatically:</p>
+<ul>
+<li>Obtains a free SSL certificate from Let's Encrypt</li>
+<li>Modifies your Nginx config to listen on port 443 with SSL</li>
+<li>Adds a redirect from HTTP (port 80) to HTTPS (port 443)</li>
+<li>Sets up a systemd timer to auto-renew the certificate every 90 days</li>
+</ul>
+
+<pre><code># Verify the auto-renewal timer is active
+sudo systemctl status certbot.timer
+
+# You can also test renewal manually (dry run — doesn't actually renew)
+sudo certbot renew --dry-run</code></pre>
+
+<h2 id="graceful-shutdown">8. Handling Graceful Shutdown in Your App</h2>
+
+<p>This is the step that <strong>99% of deployment guides skip</strong>, and it's the difference between amateur and production-grade. When PM2 reloads your app (during a deployment), it sends a <code>SIGINT</code> signal. Your app must handle this to finish processing in-flight requests before exiting.</p>
+
+<pre><code>// Add this to your app.js / server.js entry point
+
+const server = app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+// === GRACEFUL SHUTDOWN ===
+// When PM2 sends SIGINT (during reload/restart), finish in-flight requests
+process.on('SIGINT', () => {
+  console.log('SIGINT received. Shutting down gracefully...');
+  server.close(() => {
+    console.log('All connections closed. Exiting.');
+    // Close database connections
+    mongoose.connection.close(false, () => {
+      process.exit(0);
+    });
+  });
+
+  // Force exit if graceful shutdown takes too long
+  setTimeout(() => {
+    console.error('Forced shutdown — connections did not close in time.');
+    process.exit(1);
+  }, 10000);  // 10 second timeout
+});</code></pre>
+
+<h2 id="deploy-script">9. The Deployment Script (Zero-Downtime Updates)</h2>
+
+<p>Every time I push an update to production, I run this script. It pulls the latest code, installs dependencies, and does a graceful PM2 reload — <strong>zero downtime</strong>.</p>
+
+<pre><code>#!/bin/bash
+# /var/www/myapp/deploy.sh — Run this on the server to deploy updates
+
+set -e  # Exit immediately if any command fails
+
+APP_DIR="/var/www/myapp"
+BRANCH="main"
+
+echo "========================================="
+echo "  Deploying to production..."
+echo "========================================="
+
+cd $APP_DIR
+
+# 1. Pull latest code
+echo "[1/4] Pulling latest code from $BRANCH..."
+git pull origin $BRANCH
+
+# 2. Install production dependencies
+echo "[2/4] Installing dependencies..."
+npm ci --omit=dev
+
+# 3. Run database migrations (if applicable)
+# echo "[3/4] Running migrations..."
+# npx prisma migrate deploy   # Uncomment if using Prisma
+# npm run migrate              # Uncomment if using custom migrations
+
+# 4. Graceful reload — zero downtime
+echo "[4/4] Reloading PM2 (zero-downtime)..."
+pm2 reload ecosystem.config.js
+
+echo "========================================="
+echo "  Deployment complete!"
+echo "  Run 'pm2 logs myapp --lines 50' to verify"
+echo "========================================="</code></pre>
+
+<pre><code># Make the script executable
+chmod +x /var/www/myapp/deploy.sh
+
+# To deploy, simply run:
+./deploy.sh</code></pre>
+
+<div class="callout callout-info">
+<i class="fa-solid fa-lightbulb callout-icon"></i>
+<div class="callout-body">
+<strong>Why <code>pm2 reload</code> instead of <code>pm2 restart</code>?</strong> The <code>restart</code> command kills all workers simultaneously, causing a brief period where no process is listening — users get connection errors. The <code>reload</code> command starts new workers first, then gracefully kills old ones only after the new workers are ready. Zero dropped requests.
+</div>
+</div>
+
+<h2 id="monitoring">10. Monitoring &amp; Log Management</h2>
+
+<pre><code># Real-time monitoring dashboard
+pm2 monit
+
+# Stream application logs
+pm2 logs myapp
+
+# Check Nginx access logs for traffic patterns
+sudo tail -f /var/log/nginx/myapp-access.log
+
+# Check Nginx error logs for proxy issues
+sudo tail -f /var/log/nginx/myapp-error.log
+
+# Check server resource usage
+htop         # Interactive process viewer
+df -h        # Disk space
+free -m      # Memory usage</code></pre>
+
+<h3 id="log-rotation">Set Up Log Rotation (Prevent Disk from Filling Up)</h3>
+
+<pre><code># Install PM2 log rotation module
+pm2 install pm2-logrotate
+
+# Configure: keep 30 days of logs, max 50MB per file
+pm2 set pm2-logrotate:max_size 50M
+pm2 set pm2-logrotate:retain 30
+pm2 set pm2-logrotate:compress true</code></pre>
+
+<h2 id="common-mistakes">11. Common Mistakes That Will Break Your Production Server</h2>
+
+<p>I've made (or seen) every one of these mistakes. Here's how to avoid them:</p>
+
+<div style="overflow-x:auto;">
+<table class="comparison-table">
+<thead>
+<tr><th>Mistake</th><th>Why It's Dangerous</th><th>The Fix</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Running as root</strong></td>
+<td>Any app vulnerability = full server compromise</td>
+<td>Create a <code>deploy</code> user, run Node.js under that user</td>
+</tr>
+<tr>
+<td><strong>Exposing port 3000 in the firewall</strong></td>
+<td>Bypasses Nginx — no SSL, no rate limiting, no security headers</td>
+<td>Only open ports 22, 80, 443 in UFW</td>
+</tr>
+<tr>
+<td><strong>Using <code>node app.js</code> directly</strong></td>
+<td>One crash = site is down until you manually restart</td>
+<td>Always use PM2 with cluster mode</td>
+</tr>
+<tr>
+<td><strong>Forgetting <code>pm2 save</code></strong></td>
+<td>Server reboot = all PM2 processes are gone</td>
+<td>Always run <code>pm2 save</code> after any process change</td>
+</tr>
+<tr>
+<td><strong>Using <code>npm install</code> in production</strong></td>
+<td>Can install different versions than development, causing bugs</td>
+<td>Use <code>npm ci --omit=dev</code> for deterministic installs</td>
+</tr>
+<tr>
+<td><strong>Not handling <code>SIGINT</code></strong></td>
+<td>PM2 reload kills connections mid-request, users see errors</td>
+<td>Add graceful shutdown handler in your app</td>
+</tr>
+<tr>
+<td><strong>Committing <code>.env</code> to Git</strong></td>
+<td>Your database passwords and API keys are exposed publicly</td>
+<td>Add <code>.env</code> to <code>.gitignore</code>, create it manually on server</td>
+</tr>
+<tr>
+<td><strong>Not testing Nginx config before reload</strong></td>
+<td>Broken config = site goes offline on reload/restart</td>
+<td>Always run <code>sudo nginx -t</code> before <code>sudo systemctl reload nginx</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="production-checklist">12. Production Deployment Checklist</h2>
+
+<p>Before you consider your deployment "production-ready," verify every item on this checklist:</p>
+
+<ul>
+<li>☐ <strong>Non-root user</strong> — App runs under a dedicated <code>deploy</code> user</li>
+<li>☐ <strong>Firewall enabled</strong> — Only SSH, HTTP, HTTPS open (<code>ufw status</code>)</li>
+<li>☐ <strong>Node.js LTS</strong> — Installed via NodeSource, not apt default</li>
+<li>☐ <strong>PM2 cluster mode</strong> — Using all CPU cores (<code>pm2 status</code> shows multiple workers)</li>
+<li>☐ <strong>PM2 startup</strong> — Process auto-starts on server reboot (<code>pm2 startup</code> + <code>pm2 save</code>)</li>
+<li>☐ <strong>Nginx reverse proxy</strong> — Port 3000 is NOT exposed, only 80/443</li>
+<li>☐ <strong>Security headers</strong> — X-Frame-Options, X-Content-Type-Options set in Nginx</li>
+<li>☐ <strong>SSL/HTTPS</strong> — Let's Encrypt certificate installed, HTTP redirects to HTTPS</li>
+<li>☐ <strong>SSL auto-renewal</strong> — <code>certbot renew --dry-run</code> succeeds</li>
+<li>☐ <strong>Gzip compression</strong> — Enabled in Nginx for text/JS/CSS/JSON</li>
+<li>☐ <strong>Rate limiting</strong> — Configured in Nginx to prevent abuse</li>
+<li>☐ <strong>Graceful shutdown</strong> — App handles SIGINT and closes connections cleanly</li>
+<li>☐ <strong>Log rotation</strong> — pm2-logrotate installed, logs won't fill disk</li>
+<li>☐ <strong>Environment variables</strong> — <code>NODE_ENV=production</code>, secrets not in Git</li>
+<li>☐ <strong>Deploy script</strong> — Automated pull → install → reload workflow</li>
+</ul>
+
+<h2 id="faq">Frequently Asked Questions</h2>
+
+<h3>Can I run multiple Node.js apps on the same VPS?</h3>
+<p>Yes. Run each app on a different port (3000, 3001, 3002) with separate PM2 processes and ecosystem configs. Create separate Nginx server blocks for each domain, each proxying to the correct port.</p>
+
+<h3>How much traffic can this setup handle?</h3>
+<p>On a 4-core / 4GB VPS with PM2 cluster mode, this setup can comfortably handle <strong>1,000–5,000+ concurrent connections</strong> depending on your app's complexity. Nginx alone can handle 10,000+ concurrent connections. The bottleneck is usually your database, not Node.js or Nginx.</p>
+
+<h3>Should I use Docker instead?</h3>
+<p>For a single application on one server, this direct deployment is simpler, faster, and uses fewer resources than Docker. Docker adds value when you need reproducible environments across multiple servers, microservices orchestration, or CI/CD pipeline consistency. Start without Docker — migrate to it when the complexity justifies it.</p>
+
+<h3>What VPS provider do you recommend?</h3>
+<p>I've used DigitalOcean, Hetzner, and AWS Lightsail. <strong>Hetzner</strong> offers the best price-to-performance ratio. <strong>DigitalOcean</strong> has the best documentation and developer experience. For production workloads where you need the absolute cheapest option with great performance, go with Hetzner.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>You now have a production-grade Node.js deployment that matches what real companies use. Not a Heroku hobby project, not a Docker-compose tutorial that falls apart under load — a battle-tested, single-server deployment with proper security, process management, and zero-downtime updates.</p>
+
+<p>The architecture is simple by design: <strong>Nginx → PM2 → Node.js</strong>. It has powered countless production applications at scale, and it's the exact setup I rely on for the systems I manage.</p>
+
+
+<div class="callout callout-info" style="margin-top: 40px; background: rgba(99, 102, 241, 0.1); border-color: #6366f1;">
+<i class="fa-solid fa-comment-dots callout-icon" style="color: #818cf8;"></i>
+<div class="callout-body">
+<strong>Have a suggestion or found an issue?</strong><br>
+I'm always looking to improve these guides. If you have any feedback, corrections, or just want to discuss Node.js deployments, please <a href="../index.html#contact" style="text-decoration: underline; font-weight: 600;">reach out to me here</a>.
+</div>
+</div>
+
+</div> <!-- /article-content -->
+
+<!-- RELATED POSTS -->
+<div class="related-posts reveal">
+<h3 class="related-title">You might also like</h3>
+<div class="related-grid">
+<a href="scalable-nodejs-microservices.html" class="related-card">
+<div class="related-card-tag">Engineering</div>
+<h4 class="related-card-title">Building Scalable Node.js Microservices</h4>
+<div class="related-card-date">Jun 27, 2026</div>
+</a>
+<a href="powermta-configuration-guide.html" class="related-card">
+<div class="related-card-tag">Email Infrastructure</div>
+<h4 class="related-card-title">How to Configure PowerMTA for Maximum Email Deliverability</h4>
+<div class="related-card-date">Jul 8, 2026</div>
+</a>
+</div>
+</div>
+</div> <!-- /article-body-col -->
+
+<!-- SIDEBAR -->
+<div class="article-sidebar reveal" style="transition-delay: 0.2s;">
+
+<!-- ENGAGEMENT BAR -->
+<div class="engagement-bar">
+<div class="views-display" title="Total Views">
+<i class="fa-solid fa-eye"></i>
+<span id="visit-count" class="views-number" data-article="nodejs-vps" data-base="1421">...</span>
+<span class="views-label">Views</span>
+</div>
+<div>
+<div class="engagement-label">React</div>
+<button class="engagement-btn" id="like-btn" data-base="38">
+<i class="fa-solid fa-thumbs-up"></i> <span class="btn-label">Helpful</span> <span id="like-count" class="engagement-count">...</span>
+</button>
+</div>
+<div>
+<button class="engagement-btn" id="dislike-btn" data-base="1">
+<i class="fa-solid fa-thumbs-down"></i> <span class="btn-label">Not for me</span> <span id="dislike-count" class="engagement-count">...</span>
+</button>
+</div>
+<div>
+<div class="engagement-label">Actions</div>
+<button class="engagement-btn" id="share-btn">
+<i class="fa-solid fa-share-nodes"></i> <span class="btn-label">Share Article</span>
+</button>
+</div>
+<div>
+<button class="engagement-btn" id="bookmark-btn">
+<i class="fa-regular fa-bookmark"></i> <span class="btn-label">Bookmark</span>
+</button>
+</div>
+</div>
+
+<div class="sidebar-sticky">
+<!-- TABLE OF CONTENTS -->
+<div class="toc-block">
+<div class="toc-title">Table of Contents</div>
+<a href="#architecture" class="toc-link">1. Production Architecture</a>
+<a href="#server-setup" class="toc-link">2. Server Setup &amp; Hardening</a>
+<a href="#ssh-connect" class="toc-link toc-link-h3">Connect via SSH</a>
+<a href="#create-user" class="toc-link toc-link-h3">Create Deploy User</a>
+<a href="#firewall" class="toc-link toc-link-h3">Configure Firewall</a>
+<a href="#install-nodejs" class="toc-link">3. Installing Node.js</a>
+<a href="#deploy-app" class="toc-link">4. Deploying Your Code</a>
+<a href="#pm2-setup" class="toc-link">5. PM2 Process Management</a>
+<a href="#ecosystem-config" class="toc-link toc-link-h3">Ecosystem Config</a>
+<a href="#pm2-commands" class="toc-link toc-link-h3">Essential Commands</a>
+<a href="#nginx-setup" class="toc-link">6. Nginx Reverse Proxy</a>
+<a href="#nginx-config" class="toc-link toc-link-h3">Site Configuration</a>
+<a href="#ssl-setup" class="toc-link">7. SSL with Let's Encrypt</a>
+<a href="#graceful-shutdown" class="toc-link">8. Graceful Shutdown</a>
+<a href="#deploy-script" class="toc-link">9. Deployment Script</a>
+<a href="#monitoring" class="toc-link">10. Monitoring &amp; Logs</a>
+<a href="#common-mistakes" class="toc-link">11. Common Mistakes</a>
+<a href="#production-checklist" class="toc-link">12. Production Checklist</a>
+<a href="#faq" class="toc-link">FAQ</a>
+<a href="#conclusion" class="toc-link">Conclusion</a>
+</div>
+</div>
+</div> <!-- /article-sidebar -->
+
+</div> <!-- /article-layout -->
+</main>
+
+<!-- FOOTER -->
+<footer class="footer" style="margin-top:0">
+<div class="container">
+<div class="footer-social">
+<a href="https://github.com/AkshayBangarAB" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+<a href="https://www.linkedin.com/in/akshaybangarab/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+<a href="mailto:akshayab027@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+<a href="https://x.com/akshaybangarab" target="_blank" rel="noopener" aria-label="Twitter/X"><i class="fa-brands fa-x-twitter"></i></a>
+</div>
+<p>Copyright &copy; 2026 Akshay Bangar. All rights reserved.</p>
+</div>
+</footer>
+
+<button class="back-to-top" aria-label="Back to top">↑</button>
+
+<script src="../js/blog.js"></script>
+</body>
+</html>

@@ -1,0 +1,869 @@
+/* ===== EMAIL HERO ANIMATION ===== */
+
+/* --- Layout: hero becomes 2-column with animation on the right --- */
+.ei-hero .container {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+
+/* Override the original centered/constrained hero content */
+.ei-hero-content {
+  flex: 1 1 55%;
+  text-align: left !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+
+/* Override original centered badge */
+.ei-hero .ei-hero-badge {
+  justify-content: flex-start;
+}
+
+/* Override original centered h1 */
+.ei-hero h1 {
+  text-align: left;
+}
+
+/* Override original centered subtitle */
+.ei-hero .ei-hero-subtitle {
+  text-align: left;
+  margin-left: 0;
+  margin-right: 0;
+  max-width: 100%;
+}
+
+/* Override original centered buttons — left-aligned, horizontal */
+.ei-hero .ei-hero-btns {
+  justify-content: flex-start !important;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Animation container — pushed right */
+.ei-hero-animation {
+  flex: 1 1 45%;
+  max-width: 520px;
+  min-height: 500px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Animation Stage Container --- */
+.eha-stage {
+  width: 100%;
+  height: 500px;
+  position: relative;
+  perspective: 1200px;
+  text-align: left;
+}
+
+/* --- Shared: each step panel --- */
+.eha-step {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s cubic-bezier(.4,0,.2,1);
+}
+.eha-step.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* =============================================
+   STEP 1 — Email Compose Card
+   ============================================= */
+.eha-compose {
+  width: 100%;
+  max-width: 440px;
+  border-radius: 18px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 40px rgba(0,0,0,.2), 0 0 0 1px rgba(255,255,255,.04);
+  overflow: hidden;
+  transform: translateY(20px) scale(0.96);
+  opacity: 0;
+  transition: all 0.7s cubic-bezier(.4,0,.2,1);
+}
+.eha-step.active .eha-compose {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+/* Compose header bar */
+.eha-compose-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  background: rgba(99,102,241,.06);
+  border-bottom: 1px solid var(--border);
+}
+.eha-compose-dots {
+  display: flex;
+  gap: 6px;
+}
+.eha-compose-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  opacity: .7;
+}
+.eha-compose-dots span:nth-child(1) { background: #ef4444; }
+.eha-compose-dots span:nth-child(2) { background: #f59e0b; }
+.eha-compose-dots span:nth-child(3) { background: #22c55e; }
+.eha-compose-title {
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: .5px;
+  margin-left: 8px;
+}
+
+/* Compose body */
+.eha-compose-body {
+  padding: 20px;
+  text-align: left;
+}
+.eha-compose-field {
+  margin-bottom: 14px;
+}
+.eha-compose-label {
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.eha-compose-value {
+  font-size: .88rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  min-height: 36px;
+  font-family: var(--font-mono);
+  overflow: hidden;
+}
+.eha-compose-value.subject-val {
+  font-family: var(--font);
+  font-weight: 600;
+}
+.eha-typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--accent);
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  animation: eha-blink .8s step-end infinite;
+}
+@keyframes eha-blink { 50% { opacity: 0; } }
+
+/* Send button */
+.eha-send-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-glow));
+  color: #fff;
+  font-size: .85rem;
+  font-weight: 700;
+  border: none;
+  cursor: default;
+  margin-top: 6px;
+  box-shadow: 0 4px 16px rgba(99,102,241,.3);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+.eha-send-btn.sending {
+  transform: scale(0.95);
+  box-shadow: 0 2px 8px rgba(99,102,241,.2);
+}
+.eha-send-btn.sending::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent);
+  animation: eha-send-shimmer 0.6s ease;
+}
+@keyframes eha-send-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.eha-send-icon {
+  font-size: 1rem;
+  transition: transform 0.4s ease;
+}
+.eha-send-btn.sending .eha-send-icon {
+  transform: translateX(4px) translateY(-2px);
+}
+
+/* =============================================
+   STEP 2 — Infrastructure Flow
+   ============================================= */
+.eha-infra {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 10px 0;
+}
+
+.eha-infra-node {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 20px;
+  border-radius: 10px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  min-width: 190px;
+  justify-content: center;
+  position: relative;
+  opacity: 0;
+  transform: scale(0.85) translateY(6px);
+  transition: all 0.4s cubic-bezier(.4,0,.2,1);
+}
+.eha-infra-node.visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+.eha-infra-node.active-node {
+  border-color: var(--accent);
+  box-shadow: 0 0 16px rgba(99,102,241,.2), 0 0 32px rgba(99,102,241,.08);
+}
+.eha-infra-node.passed {
+  border-color: var(--green);
+  box-shadow: 0 0 10px rgba(34,197,94,.15);
+}
+.eha-infra-node-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .8rem;
+  background: rgba(99,102,241,.1);
+  color: var(--accent);
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+.eha-infra-node.active-node .eha-infra-node-icon {
+  background: var(--accent);
+  color: #fff;
+}
+.eha-infra-node.passed .eha-infra-node-icon {
+  background: rgba(34,197,94,.15);
+  color: var(--green);
+}
+.eha-infra-node-label {
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+.eha-infra-node-check {
+  font-size: .75rem;
+  color: var(--green);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  margin-left: auto;
+}
+.eha-infra-node.passed .eha-infra-node-check {
+  opacity: 1;
+}
+
+/* Connection lines between nodes */
+.eha-infra-line {
+  width: 2px;
+  height: 16px;
+  background: var(--border);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.eha-infra-line.visible {
+  opacity: 1;
+}
+.eha-infra-line-glow {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+  animation: eha-line-travel 0.5s ease forwards;
+}
+@keyframes eha-line-travel {
+  0% { top: -100%; }
+  100% { top: 100%; }
+}
+
+/* Envelope traveling indicator */
+.eha-envelope-traveler {
+  position: absolute;
+  width: 28px;
+  height: 20px;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  filter: drop-shadow(0 2px 8px rgba(99,102,241,.4));
+}
+.eha-envelope-traveler.visible {
+  opacity: 1;
+}
+.eha-envelope-traveler svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* =============================================
+   STEP 3 — Inbox UI
+   ============================================= */
+.eha-inbox {
+  width: 100%;
+  max-width: 460px;
+  border-radius: 18px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 40px rgba(0,0,0,.2);
+  overflow: hidden;
+  transform: scale(0.95);
+  opacity: 0;
+  transition: all 0.6s cubic-bezier(.4,0,.2,1);
+}
+.eha-step.active .eha-inbox {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Inbox header */
+.eha-inbox-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(99,102,241,.04);
+}
+.eha-inbox-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-glow));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: .75rem;
+}
+.eha-inbox-title {
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.eha-inbox-count {
+  margin-left: auto;
+  font-size: .7rem;
+  font-weight: 600;
+  color: var(--accent);
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(99,102,241,.1);
+}
+
+/* Search bar */
+.eha-inbox-search {
+  margin: 10px 16px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.eha-inbox-search i {
+  font-size: .8rem;
+  color: var(--text-muted);
+}
+.eha-inbox-search span {
+  font-size: .78rem;
+  color: var(--text-muted);
+}
+
+/* Email rows */
+.eha-inbox-list {
+  padding: 0;
+}
+.eha-inbox-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(99,102,241,.06);
+  transition: all 0.3s ease;
+  cursor: default;
+  position: relative;
+}
+.eha-inbox-row:last-child {
+  border-bottom: none;
+}
+.eha-inbox-row.highlighted {
+  background: rgba(99,102,241,.06);
+}
+.eha-inbox-row.new-email {
+  transform: translateY(-10px);
+  opacity: 0;
+}
+.eha-inbox-row.new-email.slide-in {
+  transform: translateY(0);
+  opacity: 1;
+  transition: all 0.5s cubic-bezier(.4,0,.2,1);
+}
+
+.eha-inbox-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .7rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+.eha-inbox-avatar.av-blue { background: linear-gradient(135deg, #6366f1, #818cf8); }
+.eha-inbox-avatar.av-green { background: linear-gradient(135deg, #22c55e, #4ade80); }
+.eha-inbox-avatar.av-orange { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+.eha-inbox-avatar.av-purple { background: linear-gradient(135deg, #a855f7, #c084fc); }
+.eha-inbox-avatar.av-teal { background: linear-gradient(135deg, #14b8a6, #2dd4bf); }
+
+.eha-inbox-content {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+.eha-inbox-sender {
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.eha-inbox-subject {
+  font-size: .75rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.eha-inbox-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.eha-inbox-time {
+  font-size: .65rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+.eha-inbox-status {
+  font-size: .62rem;
+  font-weight: 700;
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.4s ease;
+}
+.eha-inbox-status.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* =============================================
+   STEP 4 — Cursor Animation (shared with step 3)
+   ============================================= */
+.eha-cursor {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.3));
+}
+.eha-cursor.visible {
+  opacity: 1;
+}
+.eha-cursor svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* =============================================
+   STEP 5 — Email Open View
+   ============================================= */
+.eha-email-open {
+  width: 100%;
+  max-width: 460px;
+  border-radius: 18px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 40px rgba(0,0,0,.2);
+  overflow: hidden;
+  transform: scale(0.9);
+  opacity: 0;
+  transition: all 0.6s cubic-bezier(.4,0,.2,1);
+}
+.eha-step.active .eha-email-open {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.eha-email-open-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(99,102,241,.04);
+}
+.eha-email-open-subject {
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+.eha-email-open-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.eha-email-open-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: .65rem;
+  font-weight: 700;
+}
+.eha-email-open-from {
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.eha-email-open-to {
+  font-size: .68rem;
+  color: var(--text-muted);
+}
+
+.eha-email-open-body {
+  padding: 20px;
+  text-align: left;
+}
+.eha-email-open-body p {
+  font-size: .82rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 10px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: all 0.4s cubic-bezier(.4,0,.2,1);
+}
+.eha-step.active .eha-email-open-body p.reveal-line {
+  opacity: 1;
+  transform: translateY(0);
+}
+.eha-email-open-body .greeting {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.eha-email-open-body .signature {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: .78rem;
+  color: var(--text-muted);
+}
+.eha-email-open-body .sig-name {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: .82rem;
+}
+
+/* =============================================
+   STEP 6 — Success Badge
+   ============================================= */
+.eha-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+}
+
+.eha-success-badge {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(34,197,94,.15), rgba(34,197,94,.05));
+  border: 2px solid var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transform: scale(0);
+  transition: transform 0.6s cubic-bezier(.34,1.56,.64,1);
+}
+.eha-step.active .eha-success-badge {
+  transform: scale(1);
+}
+.eha-success-badge::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(34,197,94,.15), transparent 70%);
+  animation: eha-success-pulse 2s ease-in-out infinite;
+}
+@keyframes eha-success-pulse {
+  0%, 100% { transform: scale(1); opacity: .6; }
+  50% { transform: scale(1.2); opacity: .2; }
+}
+.eha-success-check {
+  font-size: 2.4rem;
+  color: var(--green);
+  position: relative;
+  z-index: 1;
+}
+
+.eha-success-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.5s cubic-bezier(.4,0,.2,1) 0.3s;
+}
+.eha-step.active .eha-success-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+.eha-success-title .check-text {
+  color: var(--green);
+}
+
+.eha-success-metrics {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.eha-success-metric {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: all 0.5s cubic-bezier(.4,0,.2,1);
+}
+.eha-step.active .eha-success-metric {
+  opacity: 1;
+  transform: translateY(0);
+}
+.eha-success-metric-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .75rem;
+}
+.eha-success-metric-icon.delivered {
+  background: rgba(34,197,94,.1);
+  color: var(--green);
+}
+.eha-success-metric-icon.opened {
+  background: rgba(99,102,241,.1);
+  color: var(--accent);
+}
+.eha-success-metric-icon.lead {
+  background: rgba(245,158,11,.1);
+  color: var(--accent-warm);
+}
+.eha-success-metric-text {
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 1024px) {
+  .ei-hero .container {
+    flex-direction: column;
+    text-align: center;
+    padding: 0 20px;
+    align-items: center;
+  }
+  .ei-hero-content {
+    flex: unset;
+    text-align: center !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+  .ei-hero .ei-hero-badge {
+    justify-content: center;
+  }
+  .ei-hero h1 {
+    text-align: center;
+    font-size: 2.5rem;
+  }
+  .ei-hero .ei-hero-subtitle {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+  }
+  .ei-hero .ei-hero-btns {
+    justify-content: center !important;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .ei-hero-animation {
+    flex: unset;
+    max-width: 100%;
+    width: 100%;
+    margin: 32px 0 0 0;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .eha-stage {
+    height: 480px;
+  }
+  .eha-compose,
+  .eha-inbox,
+  .eha-email-open {
+    max-width: 100%;
+  }
+  .eha-infra {
+    max-width: 100%;
+  }
+  .eha-infra-node {
+    min-width: 160px;
+    padding: 6px 12px;
+    gap: 8px;
+  }
+  .eha-infra-line {
+    height: 12px;
+  }
+  .eha-infra-node-label {
+    font-size: .72rem;
+  }
+  .eha-success-metrics {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .ei-hero-animation {
+    max-width: 100%;
+    min-height: 460px;
+  }
+  .eha-stage {
+    height: 460px;
+  }
+  .eha-compose-body {
+    padding: 14px;
+  }
+  .eha-compose-value {
+    font-size: .78rem;
+    padding: 6px 10px;
+  }
+  .eha-inbox-row {
+    padding: 10px 14px;
+  }
+  .eha-email-open-body {
+    padding: 14px;
+  }
+  .eha-email-open-body p {
+    font-size: .76rem;
+  }
+  .eha-success-badge {
+    width: 80px;
+    height: 80px;
+  }
+  .eha-success-check {
+    font-size: 1.8rem;
+  }
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  .eha-step,
+  .eha-compose,
+  .eha-inbox,
+  .eha-email-open,
+  .eha-infra-node,
+  .eha-infra-line,
+  .eha-success-badge,
+  .eha-success-title,
+  .eha-success-metric,
+  .eha-inbox-row,
+  .eha-email-open-body p,
+  .eha-cursor {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

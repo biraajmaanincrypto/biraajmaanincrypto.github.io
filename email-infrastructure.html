@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<!-- Primary SEO Meta Tags -->
+<title>Email Infrastructure & Cold Email Deliverability Services | SMTP Setup, PowerMTA, MailWizz | Akshay Bangar</title>
+<meta name="description" content="Hire Akshay Bangar for complete cold email infrastructure setup — SMTP server deployment, PowerMTA & MailWizz configuration, email authentication (SPF, DKIM, DMARC), IP warm-up, inbox placement optimization, bulk email sending, and email deliverability consulting. Serving businesses, agencies & marketers worldwide.">
+<meta name="keywords" content="email infrastructure, cold email infrastructure, SMTP setup, PowerMTA configuration, MailWizz setup, email deliverability specialist, SPF DKIM DMARC, IP warm-up, inbox placement, Akshay Bangar">
+<meta name="author" content="Akshay Bangar">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="googlebot" content="index, follow">
+<link rel="canonical" href="https://akshaybangarab.github.io/email-infrastructure.html">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://akshaybangarab.github.io/email-infrastructure.html">
+<meta property="og:site_name" content="Email Infrastructure & Deliverability Specialist">
+<meta property="og:title" content="Email Infrastructure & Cold Email Deliverability Services | Akshay Bangar">
+<meta property="og:description" content="Complete cold email infrastructure setup — SMTP server deployment, PowerMTA & MailWizz configuration, SPF/DKIM/DMARC authentication, IP warm-up, inbox placement optimization, and deliverability consulting for businesses worldwide.">
+<meta property="og:image" content="https://akshaybangarab.github.io/images/email-infrastructure-og.png">
+<meta property="og:image:alt" content="Email Infrastructure & Deliverability Specialist">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Email Infrastructure & Cold Email Deliverability Services | Akshay Bangar">
+<meta name="twitter:description" content="Hire an expert for SMTP setup, PowerMTA, MailWizz, cold email infrastructure, email authentication, deliverability optimization & inbox placement.">
+<meta name="twitter:image" content="https://akshaybangarab.github.io/images/email-infrastructure-og.png">
+<meta name="twitter:image:alt" content="Email Infrastructure Specialist">
+
+<!-- JSON-LD: ProfessionalService Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Akshay Bangar — Email Infrastructure & Deliverability Services",
+  "url": "https://akshaybangarab.github.io/email-infrastructure.html",
+  "logo": "https://akshaybangarab.github.io/images/akshay-bangar-software-engineer.jpg",
+  "image": "https://akshaybangarab.github.io/images/email-infrastructure-og.png",
+  "description": "Complete cold email infrastructure setup including SMTP server deployment, PowerMTA & MailWizz configuration, email authentication (SPF, DKIM, DMARC), IP warm-up, deliverability optimization, campaign launch, and ongoing monitoring.",
+  "priceRange": "$$",
+  "areaServed": {
+    "@type": "Place",
+    "name": "Worldwide"
+  },
+  "provider": {
+    "@type": "Person",
+    "@id": "https://akshaybangarab.github.io/#person",
+    "name": "Akshay Bangar",
+    "url": "https://akshaybangarab.github.io/"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Email Infrastructure Services",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Complete Cold Email Infrastructure Setup",
+          "description": "End-to-end setup from domain procurement and server deployment to warm-up, campaign launch, and ongoing monitoring."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "PowerMTA & MailWizz Setup",
+          "description": "Production-ready PowerMTA and MailWizz infrastructure optimized for deliverability and scalability."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Email Deliverability Consulting",
+          "description": "Inbox placement optimization, spam prevention, reputation management, and authentication audits."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "SMTP Server Management",
+          "description": "Server monitoring, maintenance, troubleshooting, and performance optimization for email servers."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Email Verification Solutions",
+          "description": "Custom email validation workflows using SMTP checks, MX validation, and bounce prevention techniques."
+        }
+      }
+    ]
+  },
+  "knowsAbout": [
+    "Email Infrastructure",
+    "Cold Email Systems",
+    "SMTP Server Setup",
+    "PowerMTA",
+    "MailWizz",
+    "Email Deliverability",
+    "SPF",
+    "DKIM",
+    "DMARC",
+    "IP Warm-up",
+    "Inbox Placement",
+    "Email Authentication",
+    "Postfix",
+    "DNS Configuration",
+    "Bulk Email Sending",
+    "Email Campaign Management"
+  ],
+  "isPartOf": {
+    "@type": "WebSite",
+    "@id": "https://akshaybangarab.github.io/#website",
+    "name": "Akshay Bangar",
+    "url": "https://akshaybangarab.github.io/"
+  }
+}
+</script>
+
+<!-- JSON-LD: FAQPage Schema (Rich Snippets) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is cold email infrastructure?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cold email infrastructure is a complete system for sending outreach emails at scale. It includes dedicated servers, SMTP software like PowerMTA, email management platforms like MailWizz, proper DNS and authentication setup (SPF, DKIM, DMARC), IP warm-up, and deliverability monitoring to ensure emails land in the inbox."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What services does Akshay Bangar offer for email infrastructure?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Akshay Bangar provides end-to-end email infrastructure services including SMTP server deployment, PowerMTA & MailWizz configuration, domain and DNS setup, email authentication (SPF, DKIM, DMARC, rDNS), IP and domain warm-up, email verification, deliverability optimization, campaign setup, and ongoing monitoring."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is email authentication (SPF, DKIM, DMARC) important?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Email authentication protocols like SPF, DKIM, and DMARC verify that emails are sent from authorized servers, prevent spoofing, and build sender reputation. Proper authentication is critical for inbox placement, avoiding spam filters, and maintaining a strong sender reputation for cold email campaigns."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is PowerMTA and why is it used for cold email?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PowerMTA (PMTA) is an enterprise-grade SMTP server software designed for high-volume email delivery. It supports virtual MTAs, IP rotation, queue management, and advanced throttling — making it ideal for cold email infrastructure where deliverability, scalability, and sender reputation management are critical."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does IP warm-up improve email deliverability?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "IP warm-up is the process of gradually increasing email sending volume on a new IP address to build a positive sender reputation with mailbox providers like Gmail, Outlook, and Yahoo. It prevents emails from being flagged as spam and helps achieve consistent inbox placement over time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is cold email legal? How do you ensure compliance?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, B2B cold email outreach is legal when done in compliance with applicable regulations. All infrastructure setups include proper unsubscribe mechanisms, accurate sender identification, and follow best practices aligned with CAN-SPAM (US), GDPR (EU), and India's Digital Personal Data Protection Act (DPDPA) 2023. The focus is exclusively on legitimate B2B outreach — not spam."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- JSON-LD: BreadcrumbList Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://akshaybangarab.github.io/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Email Infrastructure & Deliverability Services",
+      "item": "https://akshaybangarab.github.io/email-infrastructure.html"
+    }
+  ]
+}
+</script>
+
+<meta name="theme-color" content="#0a0a0f">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/email-infrastructure.css">
+<link rel="stylesheet" href="css/email-hero-animation.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+<div class="container">
+<a href="index.html" class="nav-logo">Akshay Bangar</a>
+<div class="nav-links" id="nav-links">
+<button class="nav-close" id="nav-close" aria-label="Close menu">&times;</button>
+<a href="index.html#home">Home</a>
+<a href="index.html#about">About</a>
+<a href="index.html#skills">Skills</a>
+<a href="core-competencies.html">Core Competencies</a>
+<a href="index.html#projects">Projects</a>
+<a href="index.html#experience">Experience</a>
+<a href="email-infrastructure.html" class="active">Email Infrastructure</a>
+<a href="index.html#contact">Contact</a>
+</div>
+<div class="nav-overlay" id="nav-overlay"></div>
+<div class="nav-right">
+<span class="hire-badge">Available for Work</span>
+<button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+<button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+<span></span><span></span><span></span>
+</button>
+</div>
+</div>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section class="ei-hero" id="ei-hero">
+<div class="ei-hero-orb ei-hero-orb--1"></div>
+<div class="ei-hero-orb ei-hero-orb--2"></div>
+<div class="ei-hero-orb ei-hero-orb--3"></div>
+<canvas class="ei-network-canvas" id="ei-network-canvas"></canvas>
+<div class="container">
+<div class="ei-hero-content reveal">
+<div class="ei-hero-badge"><i class="fa-solid fa-envelope-circle-check"></i> Cold Email Infrastructure & Deliverability Specialist</div>
+<h1><span class="gradient-text">Email Infrastructure</span> &amp; Deliverability Services</h1>
+<p class="ei-hero-subtitle">Helping businesses, agencies, and marketers build scalable, compliance-aware email outreach systems with strong deliverability, proper authentication, inbox placement optimization, and enterprise-grade email infrastructure.</p>
+<div class="ei-hero-btns">
+<a href="mailto:akshayab027@gmail.com?subject=Email%20Infrastructure%20Discussion" class="btn btn-primary" id="ei-cta-schedule"><i class="fa-solid fa-calendar-check"></i> Schedule a Discussion</a>
+<a href="index.html#contact" class="btn btn-outline" id="ei-cta-contact"><i class="fa-solid fa-envelope"></i> Contact Me</a>
+</div>
+</div>
+
+<!-- ===== HERO ANIMATION ===== -->
+<div class="ei-hero-animation" id="ei-hero-animation">
+<div class="eha-stage" id="eha-stage">
+
+<!-- STEP 1: Email Compose -->
+<div class="eha-step" data-step="1">
+<div class="eha-compose">
+<div class="eha-compose-header">
+<div class="eha-compose-dots"><span></span><span></span><span></span></div>
+<span class="eha-compose-title">New Message</span>
+</div>
+<div class="eha-compose-body">
+<div class="eha-compose-field">
+<div class="eha-compose-label">From</div>
+<div class="eha-compose-value" id="eha-from-val"></div>
+</div>
+<div class="eha-compose-field">
+<div class="eha-compose-label">To</div>
+<div class="eha-compose-value" id="eha-to-val"></div>
+</div>
+<div class="eha-compose-field">
+<div class="eha-compose-label">Subject</div>
+<div class="eha-compose-value subject-val" id="eha-subj-val"></div>
+</div>
+<div class="eha-send-btn"><i class="fa-solid fa-paper-plane eha-send-icon"></i> Send</div>
+</div>
+</div>
+</div>
+
+<!-- STEP 2: Infrastructure Flow -->
+<div class="eha-step" data-step="2">
+<div class="eha-infra">
+<div class="eha-infra-node" data-node="domain">
+<div class="eha-infra-node-icon"><i class="fa-solid fa-globe"></i></div>
+<span class="eha-infra-node-label">Domain</span>
+<span class="eha-infra-node-check"><i class="fa-solid fa-check"></i></span>
+</div>
+<div class="eha-infra-line"></div>
+<div class="eha-infra-node" data-node="dns">
+<div class="eha-infra-node-icon"><i class="fa-solid fa-diagram-project"></i></div>
+<span class="eha-infra-node-label">DNS</span>
+<span class="eha-infra-node-check"><i class="fa-solid fa-check"></i></span>
+</div>
+<div class="eha-infra-line"></div>
+<div class="eha-infra-node" data-node="auth">
+<div class="eha-infra-node-icon"><i class="fa-solid fa-shield-halved"></i></div>
+<span class="eha-infra-node-label">SPF / DKIM / DMARC</span>
+<span class="eha-infra-node-check"><i class="fa-solid fa-check"></i></span>
+</div>
+<div class="eha-infra-line"></div>
+<div class="eha-infra-node" data-node="pmta">
+<div class="eha-infra-node-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+<span class="eha-infra-node-label">PowerMTA</span>
+<span class="eha-infra-node-check"><i class="fa-solid fa-check"></i></span>
+</div>
+<div class="eha-infra-line"></div>
+<div class="eha-infra-node" data-node="mailwizz">
+<div class="eha-infra-node-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+<span class="eha-infra-node-label">MailWizz</span>
+<span class="eha-infra-node-check"><i class="fa-solid fa-check"></i></span>
+</div>
+<div class="eha-infra-line"></div>
+<div class="eha-infra-node" data-node="smtp">
+<div class="eha-infra-node-icon"><i class="fa-solid fa-server"></i></div>
+<span class="eha-infra-node-label">SMTP Delivery</span>
+<span class="eha-infra-node-check"><i class="fa-solid fa-check"></i></span>
+</div>
+<div class="eha-infra-line"></div>
+<div class="eha-infra-node" data-node="inbox">
+<div class="eha-infra-node-icon"><i class="fa-solid fa-inbox"></i></div>
+<span class="eha-infra-node-label">Inbox</span>
+<span class="eha-infra-node-check"><i class="fa-solid fa-check"></i></span>
+</div>
+</div>
+</div>
+
+<!-- STEP 3: Inbox UI -->
+<div class="eha-step" data-step="3">
+<div class="eha-inbox">
+<div class="eha-inbox-header">
+<div class="eha-inbox-icon"><i class="fa-solid fa-inbox"></i></div>
+<span class="eha-inbox-title">Inbox</span>
+<span class="eha-inbox-count">4 new</span>
+</div>
+<div class="eha-inbox-search">
+<i class="fa-solid fa-magnifying-glass"></i>
+<span>Search mail</span>
+</div>
+<div class="eha-inbox-list">
+<!-- New incoming email (animated) -->
+<div class="eha-inbox-row new-email">
+<div class="eha-inbox-avatar av-blue">PC</div>
+<div class="eha-inbox-content">
+<div class="eha-inbox-sender">prospect@company.com</div>
+<div class="eha-inbox-subject">Interested in Your Email Infrastructure Services</div>
+</div>
+<div class="eha-inbox-meta">
+<span class="eha-inbox-time">now</span>
+<span class="eha-inbox-status"><i class="fa-solid fa-check-circle"></i> Delivered</span>
+</div>
+</div>
+<!-- Existing emails -->
+<div class="eha-inbox-row">
+<div class="eha-inbox-avatar av-green">JD</div>
+<div class="eha-inbox-content">
+<div class="eha-inbox-sender">john@startup.io</div>
+<div class="eha-inbox-subject">Re: SMTP Setup Quote</div>
+</div>
+<div class="eha-inbox-meta">
+<span class="eha-inbox-time">2h</span>
+</div>
+</div>
+<div class="eha-inbox-row">
+<div class="eha-inbox-avatar av-orange">MT</div>
+<div class="eha-inbox-content">
+<div class="eha-inbox-sender">maria@agency.co</div>
+<div class="eha-inbox-subject">Domain Warm-Up Progress</div>
+</div>
+<div class="eha-inbox-meta">
+<span class="eha-inbox-time">5h</span>
+</div>
+</div>
+<div class="eha-inbox-row">
+<div class="eha-inbox-avatar av-purple">SL</div>
+<div class="eha-inbox-content">
+<div class="eha-inbox-sender">sam@enterprise.com</div>
+<div class="eha-inbox-subject">PowerMTA Config Review</div>
+</div>
+<div class="eha-inbox-meta">
+<span class="eha-inbox-time">1d</span>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Cursor element (used in step 4, positioned within step 3's inbox) -->
+<div class="eha-cursor">
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.5 3.21V20.8c0 .45.54.67.85.35l4.86-4.86h6.06c.45 0 .67-.54.35-.85L5.85 3.56a.5.5 0 00-.35-.35z" fill="#fff" stroke="#0f172a" stroke-width="1.2"/>
+</svg>
+</div>
+</div>
+
+<!-- STEP 5: Email Open View -->
+<div class="eha-step" data-step="5">
+<div class="eha-email-open">
+<div class="eha-email-open-header">
+<div class="eha-email-open-subject">Interested in Your Email Infrastructure Services</div>
+<div class="eha-email-open-meta">
+<div class="eha-email-open-avatar">PC</div>
+<div>
+<div class="eha-email-open-from">prospect@company.com</div>
+<div class="eha-email-open-to">to: akshay@business.com</div>
+</div>
+</div>
+</div>
+<div class="eha-email-open-body">
+<p class="greeting">Hi Akshay,</p>
+<p>We came across your Email Infrastructure &amp; Deliverability services.</p>
+<p>We're looking for help with PowerMTA setup, MailWizz configuration, domain warm-up, and inbox placement optimization.</p>
+<p>Your expertise seems like a great fit.</p>
+<p>Could you please share more details about your services and availability?</p>
+<p>Looking forward to hearing from you.</p>
+<p class="signature">
+<span class="sig-name">Best Regards,</span><br>
+Marketing Team
+</p>
+</div>
+</div>
+</div>
+
+<!-- STEP 6: Success Badge -->
+<div class="eha-step" data-step="6">
+<div class="eha-success">
+<div class="eha-success-badge">
+<span class="eha-success-check"><i class="fa-solid fa-check"></i></span>
+</div>
+<div class="eha-success-title">
+<span class="check-text">✓</span> Inbox Placement Successful
+</div>
+<div class="eha-success-metrics">
+<div class="eha-success-metric">
+<div class="eha-success-metric-icon delivered"><i class="fa-solid fa-envelope-circle-check"></i></div>
+<span class="eha-success-metric-text">Email Delivered</span>
+</div>
+<div class="eha-success-metric">
+<div class="eha-success-metric-icon opened"><i class="fa-solid fa-envelope-open-text"></i></div>
+<span class="eha-success-metric-text">Email Opened</span>
+</div>
+<div class="eha-success-metric">
+<div class="eha-success-metric-icon lead"><i class="fa-solid fa-user-plus"></i></div>
+<span class="eha-success-metric-text">Lead Generated</span>
+</div>
+</div>
+</div>
+</div>
+
+</div><!-- /eha-stage -->
+</div><!-- /ei-hero-animation -->
+
+</div>
+</section>
+
+<!-- ==================== STATISTICS ==================== -->
+<section class="ei-stats" id="ei-stats">
+<div class="container">
+<div class="ei-stats-grid">
+<div class="ei-stat-card reveal">
+<div class="ei-stat-number" data-count="50000" data-suffix="+" data-prefix="">0</div>
+<div class="ei-stat-label">Infrastructure Capacity / Day</div>
+</div>
+<div class="ei-stat-card reveal" style="transition-delay:.1s">
+<div class="ei-stat-number" data-count="150" data-suffix="+">0</div>
+<div class="ei-stat-label">Email Servers Configured</div>
+</div>
+<div class="ei-stat-card reveal" style="transition-delay:.2s">
+<div class="ei-stat-number" data-count="99" data-suffix="%+">0</div>
+<div class="ei-stat-label">Deliverability Focus</div>
+</div>
+<div class="ei-stat-card reveal" style="transition-delay:.3s">
+<div class="ei-stat-number" data-count="2" data-suffix="+">0</div>
+<div class="ei-stat-label">Years Experience</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ==================== PROFESSIONAL OVERVIEW ==================== -->
+<section class="section" id="ei-overview">
+<div class="container">
+<div class="ei-overview-inner">
+<div class="ei-overview-visual reveal">
+<div class="ei-overview-icon-grid">
+<div class="ei-ov-icon"><i class="fa-solid fa-server"></i></div>
+<div class="ei-ov-icon"><i class="fa-solid fa-shield-halved"></i></div>
+<div class="ei-ov-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+<div class="ei-ov-icon"><i class="fa-solid fa-network-wired"></i></div>
+<div class="ei-ov-icon"><i class="fa-solid fa-chart-line"></i></div>
+<div class="ei-ov-icon"><i class="fa-solid fa-globe"></i></div>
+</div>
+</div>
+<div class="reveal">
+<span class="section-label">Professional Overview</span>
+<h2 class="section-title">Complete Email Infrastructure Solutions</h2>
+<p style="font-size:1.02rem;line-height:1.85;margin-bottom:18px">I help businesses build and manage complete email outreach infrastructures — from domain procurement and server deployment to warm-up, campaign execution, deliverability optimization, and ongoing monitoring.</p>
+<p style="font-size:1.02rem;line-height:1.85;margin-bottom:18px">My expertise covers every stage of the email delivery lifecycle, ensuring reliable inbox placement, strong sender reputation, and scalable outreach operations.</p>
+<p style="font-size:.92rem;line-height:1.8;color:var(--text-muted);margin-top:4px"><i class="fa-solid fa-shield-halved" style="color:var(--accent);margin-right:6px"></i> All infrastructure setups follow industry best practices and are designed for compliant B2B email outreach in accordance with applicable regulations including CAN-SPAM, GDPR, and India's DPDPA 2023.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ==================== CORE EXPERTISE ==================== -->
+<section class="ei-expertise" id="ei-expertise">
+<div class="container">
+<div class="ei-section-header reveal">
+<span class="section-label" style="justify-content:center">Core Expertise</span>
+<h2 class="section-title">What I Specialize In</h2>
+<p class="section-subtitle">Deep expertise across every layer of email infrastructure and deliverability.</p>
+</div>
+<div class="ei-expertise-grid">
+
+<div class="ei-expertise-card reveal">
+<div class="ei-expertise-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+<div class="ei-expertise-title">PowerMTA (PMTA)</div>
+<ul class="ei-expertise-list">
+<li>Installation</li>
+<li>Configuration</li>
+<li>Virtual MTAs</li>
+<li>IP Rotation</li>
+<li>Queue Management</li>
+<li>Throttling</li>
+</ul>
+</div>
+
+<div class="ei-expertise-card reveal" style="transition-delay:.05s">
+<div class="ei-expertise-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+<div class="ei-expertise-title">MailWizz</div>
+<ul class="ei-expertise-list">
+<li>Installation</li>
+<li>Campaign Setup</li>
+<li>Delivery Servers</li>
+<li>Automation</li>
+<li>Bounce Processing</li>
+</ul>
+</div>
+
+<div class="ei-expertise-card reveal" style="transition-delay:.1s">
+<div class="ei-expertise-icon"><i class="fa-solid fa-server"></i></div>
+<div class="ei-expertise-title">SMTP Infrastructure</div>
+<ul class="ei-expertise-list">
+<li>Postfix</li>
+<li>Ubuntu</li>
+<li>CentOS</li>
+<li>Dedicated Servers</li>
+<li>Email Routing</li>
+</ul>
+</div>
+
+<div class="ei-expertise-card reveal" style="transition-delay:.15s">
+<div class="ei-expertise-icon"><i class="fa-solid fa-shield-halved"></i></div>
+<div class="ei-expertise-title">Email Authentication</div>
+<ul class="ei-expertise-list">
+<li>SPF</li>
+<li>DKIM</li>
+<li>DMARC</li>
+<li>rDNS</li>
+<li>HELO Configuration</li>
+</ul>
+</div>
+
+<div class="ei-expertise-card reveal" style="transition-delay:.2s">
+<div class="ei-expertise-icon"><i class="fa-solid fa-inbox"></i></div>
+<div class="ei-expertise-title">Deliverability Optimization</div>
+<ul class="ei-expertise-list">
+<li>Inbox Placement</li>
+<li>Spam Analysis</li>
+<li>Reputation Monitoring</li>
+<li>Blacklist Monitoring</li>
+</ul>
+</div>
+
+<div class="ei-expertise-card reveal" style="transition-delay:.25s">
+<div class="ei-expertise-icon"><i class="fa-solid fa-envelopes-bulk"></i></div>
+<div class="ei-expertise-title">Cold Email Infrastructure</div>
+<ul class="ei-expertise-list">
+<li>Multi-Domain Setup</li>
+<li>Domain Rotation</li>
+<li>Scaling Strategy</li>
+<li>Infrastructure Planning</li>
+</ul>
+</div>
+
+<div class="ei-expertise-card reveal" style="transition-delay:.3s">
+<div class="ei-expertise-icon"><i class="fa-solid fa-circle-check"></i></div>
+<div class="ei-expertise-title">Email Verification</div>
+<ul class="ei-expertise-list">
+<li>SMTP Validation</li>
+<li>MX Validation</li>
+<li>List Hygiene</li>
+<li>Bounce Reduction</li>
+</ul>
+</div>
+
+<div class="ei-expertise-card reveal" style="transition-delay:.35s">
+<div class="ei-expertise-icon"><i class="fa-solid fa-diagram-project"></i></div>
+<div class="ei-expertise-title">DNS & Email Routing</div>
+<ul class="ei-expertise-list">
+<li>MX Records</li>
+<li>DNS Management</li>
+<li>Domain Configuration</li>
+<li>Email Routing</li>
+</ul>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- ==================== END-TO-END TIMELINE ==================== -->
+<section class="ei-timeline-section" id="ei-workflow">
+<div class="container">
+<div class="ei-section-header reveal">
+<span class="section-label" style="justify-content:center">End-to-End Workflow</span>
+<h2 class="section-title">Cold Email Infrastructure Blueprint</h2>
+<p class="section-subtitle">A proven, step-by-step process to build production-ready cold email systems.</p>
+</div>
+
+<div class="ei-timeline">
+
+<!-- Step 1 -->
+<div class="ei-timeline-item">
+<div class="ei-timeline-dot"></div>
+<div class="ei-timeline-card">
+<div class="ei-timeline-step"><i class="fa-solid fa-clipboard-list"></i> Step 1</div>
+<div class="ei-timeline-title">Infrastructure Planning</div>
+<ul class="ei-timeline-list">
+<li>Requirement Analysis</li>
+<li>Sending Volume Planning</li>
+<li>Domain Strategy</li>
+<li>IP Planning</li>
+</ul>
+</div>
+</div>
+
+<!-- Step 2 -->
+<div class="ei-timeline-item">
+<div class="ei-timeline-dot"></div>
+<div class="ei-timeline-card">
+<div class="ei-timeline-step"><i class="fa-solid fa-globe"></i> Step 2</div>
+<div class="ei-timeline-title">Domain & DNS Setup</div>
+<ul class="ei-timeline-list">
+<li>Domain Procurement</li>
+<li>DNS Configuration</li>
+<li>Subdomain Structure</li>
+<li>MX Configuration</li>
+</ul>
+</div>
+</div>
+
+<!-- Step 3 -->
+<div class="ei-timeline-item">
+<div class="ei-timeline-dot"></div>
+<div class="ei-timeline-card">
+<div class="ei-timeline-step"><i class="fa-solid fa-server"></i> Step 3</div>
+<div class="ei-timeline-title">Server Deployment</div>
+<ul class="ei-timeline-list">
+<li>Dedicated Servers</li>
+<li>Ubuntu/CentOS Setup</li>
+<li>Security Hardening</li>
+<li>Firewall Configuration</li>
+</ul>
+</div>
+</div>
+
+<!-- Step 4 -->
+<div class="ei-timeline-item">
+<div class="ei-timeline-dot"></div>
+<div class="ei-timeline-card">
+<div class="ei-timeline-step"><i class="fa-solid fa-gears"></i> Step 4</div>
+<div class="ei-timeline-title">SMTP Infrastructure Setup</div>
+<ul class="ei-timeline-list">
+<li>PowerMTA Installation</li>
+<li>Postfix Configuration</li>
+<li>Virtual MTAs</li>
+<li>IP Rotation</li>
+</ul>
+</div>
+</div>
+
+<!-- Step 5 -->
+<div class="ei-timeline-item">
+<div class="ei-timeline-dot"></div>
+<div class="ei-timeline-card">
+<div class="ei-timeline-step"><i class="fa-solid fa-wand-magic-sparkles"></i> Step 5</div>
+<div class="ei-timeline-title">MailWizz Configuration</div>
+<ul class="ei-timeline-list">
+<li>Installation</li>
+<li>Delivery Server Integration</li>
+<li>Automation Setup</li>
+<li>Bounce Handling</li>
+</ul>
+</div>
+</div>
+
+<!-- Step 6 -->
+<div class="ei-timeline-item">
+<div class="ei-timeline-dot"></div>
+<div class="ei-timeline-card">
+<div class="ei-timeline-step"><i class="fa-solid fa-shield-halved"></i> Step 6</div>
+<div class="ei-timeline-title">Email Authentication</div>
+<ul class="ei-timeline-list">
+<li>SPF</li>
+<li>DKIM</li>
+<li>DMARC</li>
+<li>rDNS</li>
+<li>HELO Setup</li>
+</ul>
+</div>
+</div>
+
+<!-- Step 7 -->
+<div class="ei-timeline-item">
+<div class="ei-timeline-dot"></div>
+<div class="ei-timeline-card">
+<div class="ei-timeline-step"><i class="fa-solid fa-circle-check"></i> Step 7</div>
+<div class="ei-timeline-title">Email Verification</div>
+<ul class="ei-timeline-list">
+<li>SMTP Verification</li>
+<li>MX Validation</li>
+<li>Invalid Email Detection</li>
+<li>Bounce Prevention</li>
+</ul>
+</div>
+</div>
+
+<!-- Step 8 -->
+<div class="ei-timeline-item">
+<div class="ei-timeline-dot"></div>
+<div class="ei-timeline-card">
+<div class="ei-timeline-step"><i class="fa-solid fa-fire"></i> Step 8</div>
+<div class="ei-timeline-title">IP & Domain Warm-Up</div>
+<ul class="ei-timeline-list">
+<li>Gradual Sending</li>
+<li>Reputation Building</li>
+<li>Deliverability Testing</li>
+<li>Inbox Optimization</li>
+</ul>
+</div>
+</div>
+
+<!-- Step 9 -->
+<div class="ei-timeline-item">
+<div class="ei-timeline-dot"></div>
+<div class="ei-timeline-card">
+<div class="ei-timeline-step"><i class="fa-solid fa-rocket"></i> Step 9</div>
+<div class="ei-timeline-title">Campaign Launch</div>
+<ul class="ei-timeline-list">
+<li>Campaign Configuration</li>
+<li>Sending Strategy</li>
+<li>Tracking Setup</li>
+<li>Monitoring</li>
+</ul>
+</div>
+</div>
+
+<!-- Step 10 -->
+<div class="ei-timeline-item">
+<div class="ei-timeline-dot"></div>
+<div class="ei-timeline-card">
+<div class="ei-timeline-step"><i class="fa-solid fa-chart-line"></i> Step 10</div>
+<div class="ei-timeline-title">Monitoring & Optimization</div>
+<ul class="ei-timeline-list">
+<li>Google Postmaster</li>
+<li>Reputation Monitoring</li>
+<li>Blacklist Checks</li>
+<li>Deliverability Audits</li>
+<li>Performance Optimization</li>
+</ul>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- ==================== FEATURED SERVICES ==================== -->
+<section class="ei-services" id="ei-services">
+<div class="container">
+<div class="ei-section-header reveal">
+<span class="section-label" style="justify-content:center">Featured Services</span>
+<h2 class="section-title">Services I Offer</h2>
+<p class="section-subtitle">End-to-end email infrastructure solutions tailored to your business needs.</p>
+</div>
+<div class="ei-services-grid">
+
+<div class="ei-service-card reveal">
+<div class="ei-service-icon"><i class="fa-solid fa-cubes"></i></div>
+<div class="ei-service-title">Complete Cold Email Infrastructure Setup</div>
+<p class="ei-service-desc">End-to-end setup from domain procurement and server deployment to warm-up, campaign launch, and ongoing monitoring.</p>
+</div>
+
+<div class="ei-service-card reveal" style="transition-delay:.1s">
+<div class="ei-service-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+<div class="ei-service-title">PowerMTA & MailWizz Setup</div>
+<p class="ei-service-desc">Production-ready PowerMTA and MailWizz infrastructure optimized for deliverability and scalability.</p>
+</div>
+
+<div class="ei-service-card reveal" style="transition-delay:.2s">
+<div class="ei-service-icon"><i class="fa-solid fa-inbox"></i></div>
+<div class="ei-service-title">Email Deliverability Consulting</div>
+<p class="ei-service-desc">Inbox placement optimization, spam prevention, reputation management, and authentication audits.</p>
+</div>
+
+<div class="ei-service-card reveal" style="transition-delay:.1s">
+<div class="ei-service-icon"><i class="fa-solid fa-server"></i></div>
+<div class="ei-service-title">SMTP Server Management</div>
+<p class="ei-service-desc">Server monitoring, maintenance, troubleshooting, and performance optimization.</p>
+</div>
+
+<div class="ei-service-card reveal" style="transition-delay:.2s">
+<div class="ei-service-icon"><i class="fa-solid fa-circle-check"></i></div>
+<div class="ei-service-title">Email Verification Solutions</div>
+<p class="ei-service-desc">Custom email validation workflows using SMTP checks, MX validation, and bounce prevention techniques.</p>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- ==================== WHAT I DELIVER ==================== -->
+<section class="ei-deliver" id="ei-deliverables">
+<div class="container">
+<div class="ei-section-header reveal">
+<span class="section-label" style="justify-content:center">Deliverables</span>
+<h2 class="section-title">What I Deliver</h2>
+<p class="section-subtitle">Everything you need for a production-ready, high-performance email system.</p>
+</div>
+<div class="ei-deliver-grid">
+<div class="ei-deliver-item reveal"><div class="ei-deliver-check"><i class="fa-solid fa-check"></i></div><div class="ei-deliver-text">Production-Ready Email Infrastructure</div></div>
+<div class="ei-deliver-item reveal" style="transition-delay:.03s"><div class="ei-deliver-check"><i class="fa-solid fa-check"></i></div><div class="ei-deliver-text">Configured PowerMTA Environment</div></div>
+<div class="ei-deliver-item reveal" style="transition-delay:.06s"><div class="ei-deliver-check"><i class="fa-solid fa-check"></i></div><div class="ei-deliver-text">Configured MailWizz Platform</div></div>
+<div class="ei-deliver-item reveal" style="transition-delay:.09s"><div class="ei-deliver-check"><i class="fa-solid fa-check"></i></div><div class="ei-deliver-text">Authenticated Domains</div></div>
+<div class="ei-deliver-item reveal" style="transition-delay:.12s"><div class="ei-deliver-check"><i class="fa-solid fa-check"></i></div><div class="ei-deliver-text">SPF Setup</div></div>
+<div class="ei-deliver-item reveal" style="transition-delay:.15s"><div class="ei-deliver-check"><i class="fa-solid fa-check"></i></div><div class="ei-deliver-text">DKIM Setup</div></div>
+<div class="ei-deliver-item reveal" style="transition-delay:.18s"><div class="ei-deliver-check"><i class="fa-solid fa-check"></i></div><div class="ei-deliver-text">DMARC Setup</div></div>
+<div class="ei-deliver-item reveal" style="transition-delay:.21s"><div class="ei-deliver-check"><i class="fa-solid fa-check"></i></div><div class="ei-deliver-text">rDNS Configuration</div></div>
+<div class="ei-deliver-item reveal" style="transition-delay:.24s"><div class="ei-deliver-check"><i class="fa-solid fa-check"></i></div><div class="ei-deliver-text">Warmed-Up Domains & IPs</div></div>
+<div class="ei-deliver-item reveal" style="transition-delay:.27s"><div class="ei-deliver-check"><i class="fa-solid fa-check"></i></div><div class="ei-deliver-text">Deliverability Monitoring</div></div>
+<div class="ei-deliver-item reveal" style="transition-delay:.30s"><div class="ei-deliver-check"><i class="fa-solid fa-check"></i></div><div class="ei-deliver-text">Campaign-Ready Environment</div></div>
+<div class="ei-deliver-item reveal" style="transition-delay:.33s"><div class="ei-deliver-check"><i class="fa-solid fa-check"></i></div><div class="ei-deliver-text">Documentation & Handover</div></div>
+</div>
+</div>
+</section>
+
+<!-- ==================== TECHNOLOGY STACK ==================== -->
+<section class="ei-tech" id="ei-tech">
+<div class="container">
+<div class="ei-section-header reveal">
+<span class="section-label" style="justify-content:center">Technology Stack</span>
+<h2 class="section-title">Tools & Technologies</h2>
+<p class="section-subtitle">The platforms, protocols, and tools powering enterprise email infrastructure.</p>
+</div>
+<div class="ei-tech-badges reveal">
+<span class="ei-tech-badge"><i class="fa-solid fa-bolt-lightning"></i> PowerMTA</span>
+<span class="ei-tech-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> MailWizz</span>
+<span class="ei-tech-badge"><i class="fa-solid fa-envelope"></i> Postfix</span>
+<span class="ei-tech-badge"><i class="fa-brands fa-linux"></i> Linux</span>
+<span class="ei-tech-badge"><i class="fa-brands fa-ubuntu"></i> Ubuntu</span>
+<span class="ei-tech-badge"><i class="fa-brands fa-centos"></i> CentOS</span>
+<span class="ei-tech-badge"><i class="fa-solid fa-server"></i> SMTP</span>
+<span class="ei-tech-badge"><i class="fa-solid fa-globe"></i> DNS</span>
+<span class="ei-tech-badge"><i class="fa-solid fa-shield-halved"></i> SPF</span>
+<span class="ei-tech-badge"><i class="fa-solid fa-key"></i> DKIM</span>
+<span class="ei-tech-badge"><i class="fa-solid fa-lock"></i> DMARC</span>
+<span class="ei-tech-badge"><i class="fa-brands fa-google"></i> Google Postmaster</span>
+<span class="ei-tech-badge"><i class="fa-solid fa-toolbox"></i> MXToolbox</span>
+<span class="ei-tech-badge"><i class="fa-brands fa-microsoft"></i> Microsoft SNDS</span>
+<span class="ei-tech-badge"><i class="fa-brands fa-python"></i> Python</span>
+</div>
+</div>
+</section>
+
+<!-- ==================== FAQ SECTION (SEO) ==================== -->
+<section class="section" id="ei-faq" style="background:var(--bg-secondary)">
+<div class="container">
+<div class="ei-section-header reveal">
+<span class="section-label" style="justify-content:center">Frequently Asked Questions</span>
+<h2 class="section-title">Email Infrastructure FAQ</h2>
+<p class="section-subtitle">Common questions about cold email infrastructure, SMTP setup, and deliverability.</p>
+</div>
+<div style="max-width:820px;margin:0 auto">
+
+<details class="ei-faq-item reveal" id="faq-1">
+<summary class="ei-faq-question"><i class="fa-solid fa-circle-question" style="color:var(--accent);margin-right:10px"></i> What is cold email infrastructure?</summary>
+<div class="ei-faq-answer">
+<p>Cold email infrastructure is a complete system for sending outreach emails at scale. It includes dedicated servers, SMTP software like PowerMTA, email management platforms like MailWizz, proper DNS and authentication setup (SPF, DKIM, DMARC), IP warm-up, and deliverability monitoring to ensure emails land in the inbox rather than the spam folder.</p>
+</div>
+</details>
+
+<details class="ei-faq-item reveal" style="transition-delay:.05s" id="faq-2">
+<summary class="ei-faq-question"><i class="fa-solid fa-circle-question" style="color:var(--accent);margin-right:10px"></i> What services do you offer for email infrastructure?</summary>
+<div class="ei-faq-answer">
+<p>I provide end-to-end email infrastructure services including SMTP server deployment, PowerMTA & MailWizz configuration, domain and DNS setup, email authentication (SPF, DKIM, DMARC, rDNS), IP and domain warm-up, email verification, deliverability optimization, campaign setup, and ongoing monitoring. Every infrastructure is custom-built based on your sending requirements.</p>
+</div>
+</details>
+
+<details class="ei-faq-item reveal" style="transition-delay:.1s" id="faq-3">
+<summary class="ei-faq-question"><i class="fa-solid fa-circle-question" style="color:var(--accent);margin-right:10px"></i> Why is email authentication (SPF, DKIM, DMARC) important?</summary>
+<div class="ei-faq-answer">
+<p>Email authentication protocols like SPF, DKIM, and DMARC verify that emails are sent from authorized servers, prevent spoofing, and build sender reputation. Proper authentication is critical for inbox placement, avoiding spam filters, and maintaining a strong sender reputation for cold email campaigns.</p>
+</div>
+</details>
+
+<details class="ei-faq-item reveal" style="transition-delay:.15s" id="faq-4">
+<summary class="ei-faq-question"><i class="fa-solid fa-circle-question" style="color:var(--accent);margin-right:10px"></i> What is PowerMTA and why is it used for cold email?</summary>
+<div class="ei-faq-answer">
+<p>PowerMTA (PMTA) is an enterprise-grade SMTP server software designed for high-volume email delivery. It supports virtual MTAs, IP rotation, queue management, and advanced throttling — making it ideal for cold email infrastructure where deliverability, scalability, and sender reputation management are critical.</p>
+</div>
+</details>
+
+<details class="ei-faq-item reveal" style="transition-delay:.2s" id="faq-5">
+<summary class="ei-faq-question"><i class="fa-solid fa-circle-question" style="color:var(--accent);margin-right:10px"></i> How does IP warm-up improve email deliverability?</summary>
+<div class="ei-faq-answer">
+<p>IP warm-up is the process of gradually increasing email sending volume on a new IP address to build a positive sender reputation with mailbox providers like Gmail, Outlook, and Yahoo. It prevents emails from being flagged as spam and helps achieve consistent inbox placement over time.</p>
+</div>
+</details>
+
+<details class="ei-faq-item reveal" style="transition-delay:.25s" id="faq-6">
+<summary class="ei-faq-question"><i class="fa-solid fa-circle-question" style="color:var(--accent);margin-right:10px"></i> Do you provide ongoing email infrastructure management?</summary>
+<div class="ei-faq-answer">
+<p>Yes. Beyond initial setup, I offer ongoing server monitoring, deliverability audits, blacklist resolution, reputation management, campaign performance optimization, and infrastructure scaling as your sending volume grows.</p>
+</div>
+</details>
+
+<details class="ei-faq-item reveal" style="transition-delay:.3s" id="faq-7">
+<summary class="ei-faq-question"><i class="fa-solid fa-circle-question" style="color:var(--accent);margin-right:10px"></i> Is cold email legal? How do you ensure compliance?</summary>
+<div class="ei-faq-answer">
+<p>Yes, B2B cold email outreach is legal when done in compliance with applicable regulations. All infrastructure setups I build include proper unsubscribe mechanisms, accurate sender identification, and follow best practices aligned with CAN-SPAM (US), GDPR (EU), and India's Digital Personal Data Protection Act (DPDPA) 2023. I focus exclusively on legitimate B2B outreach — not spam.</p>
+</div>
+</details>
+
+</div>
+</div>
+</section>
+
+<!-- ==================== FINAL CTA ==================== -->
+<section class="ei-cta" id="ei-contact">
+<div class="container">
+<div class="ei-cta-inner reveal">
+<div class="ei-cta-label"><i class="fa-solid fa-paper-plane"></i> Ready to Get Started?</div>
+<h2>From Infrastructure <span class="gradient-text">to Inbox</span></h2>
+<p class="ei-cta-desc">Helping businesses build scalable, compliant email outreach systems that prioritize deliverability, sender reputation, and reliable campaign performance.</p>
+<div class="ei-cta-btns">
+<a href="mailto:akshayab027@gmail.com?subject=Email%20Infrastructure%20Discussion" class="btn btn-primary" id="ei-cta-bottom-schedule" target="_blank"><i class="fa-solid fa-calendar-check"></i> Schedule a Discussion</a>
+<a href="index.html#contact" class="btn btn-outline" id="ei-cta-bottom-contact"><i class="fa-solid fa-envelope"></i> Contact Me</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+<div class="container">
+<div class="footer-social">
+<a href="https://github.com/AkshayBangarAB" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></a>
+<a href="https://www.linkedin.com/in/akshaybangarab/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+<a href="mailto:akshayab027@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/><path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/></svg></a>
+<a href="https://x.com/akshaybangarab" target="_blank" rel="noopener" aria-label="Twitter/X"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+</div>
+<p>Copyright &copy; 2026 Akshay Bangar. All rights reserved.</p>
+<p style="font-size:.72rem;color:var(--text-muted);margin-top:8px;max-width:640px;margin-left:auto;margin-right:auto;line-height:1.6">All email infrastructure services are designed for legitimate B2B outreach purposes. Clients are responsible for ensuring their email campaigns comply with applicable laws including CAN-SPAM, GDPR, CASL, and India's DPDPA 2023.</p>
+</div>
+</footer>
+
+<button class="back-to-top" aria-label="Back to top">↑</button>
+
+<script src="js/email-infrastructure.js"></script>
+<script src="js/email-hero-animation.js"></script>
+</body>
+</html>

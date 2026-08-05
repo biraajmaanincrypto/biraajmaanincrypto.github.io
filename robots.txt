@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Allow: /about.html
+Allow: /email-infrastructure.html
+Allow: /core-competencies.html
+Allow: /blog/
+
+Sitemap: https://akshaybangarab.github.io/sitemap.xml
